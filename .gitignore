@@ -1,0 +1,4 @@
+__pycache__/
+my_awesome_model/
+movie_rating_model7.pkl
+tfidf_vectorizer7.pkl

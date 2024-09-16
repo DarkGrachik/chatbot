@@ -1,0 +1,25 @@
+<!-- sentiment_analysis/templates/sentiment_analysis/review.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+</head>
+<body>
+    <h1>Sentiment Analysis</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if sentiment %}
+        <h2>Sentiment: {{ sentiment }}</h2>
+    {% endif %}
+
+    {% if rating is not None %}
+        <h2>Rating: {{ rating }}</h2>
+    {% endif %}
+</body>
+</html>

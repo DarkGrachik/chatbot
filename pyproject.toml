@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "django-cifrum"
+version = "0.1.0"
+description = ""
+authors = ["griega <126513423+griega@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.1"
+psycopg2-binary = "^2.9.9"
+scikit-learn = "^1.5.2"
+torch = "^2.4.1"
+transformers = "^4.44.2"
+joblib = "^1.4.2"
+nltk = "3.8.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
