@@ -9,10 +9,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sentiment_model_directory = os.path.join(BASE_DIR, 'reviews', 'my_awesome_model', 'checkpoint-1563')
 vectorizer_path = os.path.join(BASE_DIR, 'reviews', 'tfidf_vectorizer7.pkl')
 model_path = os.path.join(BASE_DIR, 'reviews', 'movie_rating_model7.pkl')
-
+# подключаю модели
 sentiment_model = SentimentModel(sentiment_model_directory)
 rating_model = RatingModel(model_path, vectorizer_path)
-
+# вьюха
 def review_view(request):
     sentiment = None
     rating = None
