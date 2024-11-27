@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Knowledge Assistant</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="https://via.placeholder.com/40" alt="avatar" class="chat-avatar">
+            <span>YamiChat</span>
+        </div>
+        <div id="chatbox" class="chat-box">
+            <!-- Сообщения будут вставляться сюда -->
+        </div>
+        <div class="chat-footer">
+            <textarea id="user_message" placeholder="Введите ваш вопрос..." rows="2"></textarea>
+            <button id="send_button">Отправить</button>
+        </div>
+    </div>
+
+    <div id="color-picker">
+        <label for="chat-background">Цвет фона чата:</label>
+        <input type="color" id="chat-background" name="chat-background" value="#f4f4f4">
+
+        <label for="user-message-bg">Цвет фона сообщений пользователя:</label>
+        <input type="color" id="user-message-bg" name="user-message-bg" value="#e1f7d5">
+
+        <label for="bot-message-bg">Цвет фона сообщений бота:</label>
+        <input type="color" id="bot-message-bg" name="bot-message-bg" value="#d5e1f7">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#send_button').click(function() {
+                var userMessage = $('#user_message').val().trim();
+                if (userMessage === "") return;
+
+                $('#chatbox').append('<div class="message user-message">' + userMessage + '</div>');
+                $('#user_message').val('');
+
+                $.ajax({
+                    url: '/chatbot/',  // API для получения ответа от бота
+                    method: 'POST',
+                    data: {
+                        'message': userMessage,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $('#chatbox').append('<div class="message bot-message">' + response.reply + '</div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Прокрутка
+                    },
+                    error: function(error) {
+                        console.error('Ошибка:', error);
+                    }
+                });
+            });
+
+            // Обработчик для изменения фона чата
+            $('#chat-background').on('input', function() {
+                $('#chatbox').css('background-color', $(this).val());
+            });
+
+            // Обработчик для изменения фона сообщений пользователя
+            $('#user-message-bg').on('input', function() {
+                $('.user-message').css('background-color', $(this).val());
+                $('.user-message::after').css('border-left-color', $(this).val());
+            });
+
+            // Обработчик для изменения фона сообщений бота
+            $('#bot-message-bg').on('input', function() {
+                $('.bot-message').css('background-color', $(this).val());
+                $('.bot-message::after').css('border-right-color', $(this).val());
+            });
+        });
+    </script>
+</body>
+</html>
